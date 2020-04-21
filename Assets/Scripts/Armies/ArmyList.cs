@@ -8,6 +8,8 @@ using UnityEngine;
 using Books;
 using Books.Units;
 
+
+namespace Armies{
 public class ArmyList{
 
     private int position = 0;
@@ -157,4 +159,5 @@ public class BuiltSquad{
 
     //Make the 2D array accessible
     
+}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace Armies{
 public class Handler_AM_ListBtn : MonoBehaviour
 {
 
@@ -67,4 +68,5 @@ public class Handler_AM_ListBtn : MonoBehaviour
 
         transform.GetComponent<Button>().enabled = true;
     }
+}
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+namespace Armies{
 public class ArmyListManager : MonoBehaviour
 {
 
@@ -62,4 +64,5 @@ public class ArmyListManager : MonoBehaviour
 
 
     //The save button will be in its own handler
+}
 }
