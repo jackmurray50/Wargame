@@ -55,15 +55,13 @@ namespace Books.WeaponSystems{
 
     public abstract class WeaponSystemHandheld : WeaponSystem
     {
-     protected int weight;
-        public WeaponSystemHandheld(string _name, int _cost, Damage _damage, int _weight, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits){
-            this.weight = _weight;
+        public WeaponSystemHandheld(string _name, int _cost, Damage _damage, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits){
         }
     }
     //The base class for all melee weapons. Range is implied to be 0.
     public class WeaponSystemMelee : WeaponSystemHandheld
     {
-        public WeaponSystemMelee(string _name, int _cost, Damage _damage, int _weight, params WeaponTrait[] _traits) : base(_name, _cost, _damage,  _weight, _traits){
+        public WeaponSystemMelee(string _name, int _cost, Damage _damage, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits){
             base.systemType = "Melee";
         }
     }
@@ -71,9 +69,12 @@ namespace Books.WeaponSystems{
     {
 
         protected int optimalRange;
-        protected int maxRange;
-        public WeaponSystemRanged(string _name, int _cost, Damage _damage, int _weight, int _optimalRange, int _maxRange, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _weight, _traits ){
+        protected int falloff;
+        protected int attacks;
+
+        public WeaponSystemRanged(string _name, int _cost, Damage _damage, int _attacks, int _optimalRange, int _falloff, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits ){
             base.systemType = "Ranged";
+            attacks = _attacks;
 
     }
 

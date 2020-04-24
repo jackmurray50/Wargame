@@ -13,7 +13,7 @@ using Armies;
 public class Handler_AM_Unit : MonoBehaviour
 {
 
-    private BuiltSquad squad = new BuiltSquad();
+    private BuiltSquad squad;
     private enum View{
         DETAILED,
         COMPACT,
@@ -39,6 +39,8 @@ public class Handler_AM_Unit : MonoBehaviour
         //Probably do it index-based
 
         //Set the view to the default one (Usually normal) which'll get rid of all the unnecessary information
+
+        //Double-check that the magic system isn't 
         SetView(View.NORMAL);
     }
 

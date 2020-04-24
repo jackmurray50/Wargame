@@ -22,17 +22,7 @@ public class ArmyListManager : MonoBehaviour
 
     //Load in the already-created armies from local
     public void LoadArmiesFromFile(){
-        //TEMPORARY FOR TESTING
-        Armies.Scavengers.Army_Scavengers_Squad sl = new Armies.Scavengers.Army_Scavengers_Squad();
-        armies.Add(new List<ArmyList>());
-        armies[0].Add(new ArmyList("Test", 0, ArmyList.Faction.FRONTIERWORLDS));
-        //Debug.Log(sl.getItem("Scavs").getName());
-        armies[0][0].AddSquad(sl.getItem("Scavs"));
-        armies[0].Add(new ArmyList("Test Two", 1, ArmyList.Faction.MEDUSAE));
-        armies[0][1].AddSquad(sl.getItem("Conversion Tank"));
-        armies[0].Add(new ArmyList("Test Two", 3, ArmyList.Faction.UNITEDINNERPLANETS));
-        armies[0][1].AddSquad(sl.getItem("Conversion Tank"));
-        
+               
 
     }
 

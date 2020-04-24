@@ -12,28 +12,6 @@ namespace Books.StatsSystems{
 
         //(string _name, int _specialization, params Stat[] _stats)
         protected virtual void loadStatsSystems(){
-            //Standard infantry's statistics
-            StatsSystem temp;
-            temp = new StatsSystem("Basic Infantry",
-                1,
-                createStat(AvailableStatistics.STRENGTH, 2),
-                createStat(AvailableStatistics.DEXTERITY, 2),
-                createStat(AvailableStatistics.DETERMINATION, 0),
-                createStat(AvailableStatistics.INTELLIGENCE, 0)
-                );
-            temp.setSkills(
-                createSkill(AvailableSkills.AIM)
-                );
-            items.Add(temp);
-
-            temp = new StatsSystem("Motorcycle",
-                0,
-                createStat(AvailableStatistics.STRENGTH, 4)
-            );
-            temp = new StatsSystem("Tank", 
-                0,
-                createStat(AvailableStatistics.STRENGTH, 6)
-            );
             
         }
 #region attributeRetrieval
@@ -44,6 +22,7 @@ namespace Books.StatsSystems{
             DEXTERITY,
             INTELLIGENCE,
             DETERMINATION,
+            ATTACKS,
             NOSKILL
         }
         public enum AvailableSkills{
@@ -65,11 +44,13 @@ namespace Books.StatsSystems{
                 case AvailableStatistics.STRENGTH:
                     return new Stat("Strength", num);
                 case AvailableStatistics.DEXTERITY:
-                    return new Stat("Strength", num);
+                    return new Stat("Dexterity", num);
                 case AvailableStatistics.DETERMINATION:
-                    return new Stat("Strength", num);
+                    return new Stat("Determination", num);
                 case AvailableStatistics.INTELLIGENCE:
-                    return new Stat("Strength", num);
+                    return new Stat("Intelligence", num);
+                case AvailableStatistics.ATTACKS:
+                    return new Stat("Attacks", num);
                 }
             return null;
 

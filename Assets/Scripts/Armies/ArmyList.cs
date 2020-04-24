@@ -7,13 +7,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Books;
 using Books.Units;
+using Books.WeaponSystems;
+using Books.ArmourSystems;
+using Books.MagicSystems;
+using Books.StatsSystems;
+using Books.MovementSystems;
 
 
 namespace Armies{
 public class ArmyList{
 
     private int position = 0;
+    private List<Faction> factions = new List<Faction>();
 
+    private int maxCost;
+    private string name;
+    private List<BuiltSquad> squads = new List<BuiltSquad>();
     public int GetPosition(){
         return position;
     }
@@ -30,7 +39,7 @@ public class ArmyList{
         MEDUSAE
     }
 
-    private List<Faction> factions = new List<Faction>();
+
 
     public Faction GetFaction(int i){
         return factions[i];
@@ -49,7 +58,6 @@ public class ArmyList{
 
     //Squads currently in the army
 
-    private string name;
     public string GetName(){
         return name;
     }
@@ -57,17 +65,16 @@ public class ArmyList{
         //TODO: Make this calculate the cost
         return 2000;
     }
-    private int maxCost;
 
     //Should sort squads by squad type
-    private List<Squad> squads = new List<Squad>();
 
-    public void UpdateSquad(int index, Squad newSquad){
+
+    public void UpdateSquad(int index, BuiltSquad newSquad){
         squads[index] = newSquad;
 
     }
 
-    public void AddSquad(Squad newSquad){
+    public void AddSquad(BuiltSquad newSquad){
         squads.Add(newSquad);
 
     }
@@ -154,10 +161,73 @@ public class ArmyList{
 
 public class BuiltSquad{
     //MAke a 2D array. List of unit blocks, and amount of each unit block.
-
+    List<Unit> units = new List<Unit>();
     //Include a GetCost button
 
     //Make the 2D array accessible
+
+    Squad.SquadType classification;
+    string name; //A custom name the player can set, ex: 181st Infantry
+    string squadName; //The name of the squad (Ex: Scav, Frontiersmen, etc...)
+    public BuiltSquad(Squad _squad){
+        classification = _squad.GetClassification();
+    }
+
+    public void SetName(string n){
+        name = n;
+    }
+    public string GetName(){
+        return name;
+    }
+
+    public Squad.SquadType GetClassification(){
+        return this.classification;
+    }
+
+    public int GetCost(){
+        int cost = 0;
+        for(int i = 0; i < units.Count; i++){
+            cost += units[i].GetCost();
+        }
+        return cost;
+    }
     
+}
+
+
+//A class that handles a units stats and equipment. UnitBlock holds the possible equipment and systems, this one holds the active ones.
+public class Unit{
+    
+    int amount;
+    string name;
+
+    int cost;
+
+    UnitBlock unitBlock;
+
+    //The systems that the Unit has. It can have multiple of some of them, though statssystems and magicsystems will be rare
+    List<ArmourSystem> armourSystems = new List<ArmourSystem>();
+    List<MagicSystem> magicSystems = new List<MagicSystem>();
+    List<MovementSystem> movementSystems = new List<MovementSystem>();
+    List<StatsSystem> statsSystems = new List<StatsSystem>();
+    List<WeaponSystem> weaponSystems = new List<WeaponSystem>();
+
+    //Don't need default weapons or armour systems. The first magic, movement and stats systems will be considered the default
+
+    public Unit(UnitBlock _unitBlock){
+        unitBlock = _unitBlock;
+    }
+    public int GetCost(){
+        int cost = unitBlock.getCost();
+
+
+
+        return cost * amount;
+    }
+
+
+    
+
+
 }
 }

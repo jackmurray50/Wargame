@@ -171,11 +171,11 @@ namespace Armies.Scavengers{
             //Reminder: 
             // Infantry: (string _name, int _hp, int _cost, int _armour, int _weight, int _dodgeBonus, params ArmourTrait[] _traits)
             // Vehicle: (string _name, int _hp, int _cost, List<ArmourTrait> _traits, int _front, int _side, int _rear, int _top, int _weight)
-            items.Add(new ArmourSystemInfantry("Kevlar", 1, 0, 3, 1, 1));
-            items.Add(new ArmourSystemInfantry("Dyneema", 1, 1, 4, 1, 1));
+            items.Add(new ArmourSystemInfantry("Kevlar", 1, 0, 3, 1));
+            items.Add(new ArmourSystemInfantry("Dyneema", 1, 1, 4, 1));
 
-            items.Add(new ArmourSystemAFV("Universal Carrier", 4, 12, 10, 8, 8, 4, 8, atl.getItem("Open Topped")));
-            items.Add(new ArmourSystemAFV("Conversion Tank", 8, 0, 15, 12, 10, 10, 16));
+            items.Add(new ArmourSystemAFV("Universal Carrier", 4, 12, 10, 8, 8, 4, atl.getItem("Open Topped")));
+            items.Add(new ArmourSystemAFV("Conversion Tank", 8, 0, 15, 12, 10, 10 ));
 
         }
     }
@@ -234,7 +234,8 @@ namespace Armies.Scavengers{
                 createStat(AvailableStatistics.STRENGTH, 2),
                 createStat(AvailableStatistics.DEXTERITY, 2),
                 createStat(AvailableStatistics.DETERMINATION, 0),
-                createStat(AvailableStatistics.INTELLIGENCE, 0)
+                createStat(AvailableStatistics.INTELLIGENCE, 0),
+                createStat(AvailableStatistics.ATTACKS, 1)
                 );
             temp.setSkills(
                 createSkill(AvailableSkills.AIM)
@@ -356,20 +357,20 @@ namespace Armies.Scavengers{
             #endregion DamageTypes
 
             //Handheld
-            items.Add(new WeaponSystemRanged("Frontier Rifle K2", 0, stdInfantryDamage, 1, 40, 80, wtl.getItem("Armour Piercing")));
+            items.Add(new WeaponSystemRanged("Frontier Rifle K2", 0, stdInfantryDamage, 1,  40, 80, wtl.getItem("Armour Piercing")));
             items.Add(new WeaponSystemRanged("K15 Submachine Gun", 0, stdInfantryDamage, 1, 20, 40, wtl.getItem("Rapid Fire")));
-            items.Add(new WeaponSystemRanged("H15 Pistol", 1, stdInfantryDamage, 0, 10, 20, wtl.getItem("CQC Firearm")));
+            items.Add(new WeaponSystemRanged("H15 Pistol", 1, stdInfantryDamage, 1, 10, 20, wtl.getItem("CQC Firearm")));
 
-            items.Add(new WeaponSystemMelee("E-Tool", 0, stdInfantryDamage, 1));
+            items.Add(new WeaponSystemMelee("E-Tool", 0, stdInfantryDamage));
             
 
             //Supported weapons (LMGs and such)
-            items.Add(new WeaponSystemRanged("Duboit Machine Gun", 4, stdInfantryDamage, 4, 50, 100, wtl.getItem("Heavy"), wtl.getItem("Rapid Fire")));
-            items.Add(new WeaponSystemRanged("Duboit Anti Tank Rifle", 8, stdAPDamage, 6, 100, 200, wtl.getItem("Heavy")));
+            items.Add(new WeaponSystemRanged("Duboit Machine Gun", 4, stdInfantryDamage, 2, 50, 100, wtl.getItem("Heavy"), wtl.getItem("Rapid Fire")));
+            items.Add(new WeaponSystemRanged("Duboit Anti Tank Rifle", 8, stdAPDamage, 1, 100, 200, wtl.getItem("Heavy")));
 
             //Vehicle weapons
 
-            items.Add(new WeaponSystemMelee("Ramming", 0, rammingDamage, 0, wtl.getItem("Self Damaging")));
+            items.Add(new WeaponSystemMelee("Ramming", 0, rammingDamage, wtl.getItem("Self Damaging")));
         }
     }
 }
