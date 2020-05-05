@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Books.Traits;
 
-namespace Books.WeaponSystems{
-    public abstract class WeaponSystem : Book
+namespace UnitSystems.WeaponSystems{
+    public abstract class WeaponSystem : UnitSystem
     {
         protected string systemType = "Any";
-        protected int baseCost;
         protected Damage damage;
         
         public List<WeaponTrait> traits = new List<WeaponTrait>();
-        protected WeaponSystem(string n, int c, Damage d, params WeaponTrait[] _traits) : base(n){
-            baseCost = c;
+        protected WeaponSystem(string n, Damage d, params WeaponTrait[] _traits) : base(n){
             damage = d;
             for(int i = 0; i < _traits.Length; i++){
                 traits.Add(_traits[0]);
@@ -55,13 +53,13 @@ namespace Books.WeaponSystems{
 
     public abstract class WeaponSystemHandheld : WeaponSystem
     {
-        public WeaponSystemHandheld(string _name, int _cost, Damage _damage, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits){
+        public WeaponSystemHandheld(string _name, Damage _damage, params WeaponTrait[] _traits) : base(_name, _damage, _traits){
         }
     }
     //The base class for all melee weapons. Range is implied to be 0.
     public class WeaponSystemMelee : WeaponSystemHandheld
     {
-        public WeaponSystemMelee(string _name, int _cost, Damage _damage, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits){
+        public WeaponSystemMelee(string _name, Damage _damage, params WeaponTrait[] _traits) : base(_name, _damage, _traits){
             base.systemType = "Melee";
         }
     }
@@ -72,7 +70,7 @@ namespace Books.WeaponSystems{
         protected int falloff;
         protected int attacks;
 
-        public WeaponSystemRanged(string _name, int _cost, Damage _damage, int _attacks, int _optimalRange, int _falloff, params WeaponTrait[] _traits) : base(_name, _cost, _damage, _traits ){
+        public WeaponSystemRanged(string _name, Damage _damage, int _attacks, int _optimalRange, int _falloff, params WeaponTrait[] _traits) : base(_name, _damage, _traits ){
             base.systemType = "Ranged";
             attacks = _attacks;
 

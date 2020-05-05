@@ -5,8 +5,7 @@ using UnityEngine;
 
 using Books;
 using Books.Traits;
-using Books.MovementSystems;
-namespace Books.MovementSystems{
+namespace UnitSystems.MovementSystems{
     public class MovementSystemLibrary : Library<MovementSystem>{
 
         private MovementTraitLibrary mtl = new MovementTraitLibrary();

@@ -12,17 +12,10 @@ using Armies;
 //Finally, it'll need a 'Commit' button.
 public class Handler_AM_Unit : MonoBehaviour
 {
-
-    private BuiltSquad squad;
     private enum View{
         DETAILED,
         COMPACT,
         NORMAL
-    }
-
-    public void SetSquad(BuiltSquad _squad){
-        //TODO: Maybe make sure this can only be set once?
-        squad = _squad;
     }
     void Start()
     {

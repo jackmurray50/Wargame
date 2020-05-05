@@ -5,9 +5,9 @@ using UnityEngine;
 
 using Books;
 using Books.Traits;
-using Books.MagicSystems;
+using UnitSystems.MagicSystems;
 
-namespace Books.MagicSystems{
+namespace UnitSystems.MagicSystems{
     public class MagicSystemLibrary : Library<MagicSystem>{
 
         protected List<SpellBook> spellBooks = new List<SpellBook>();

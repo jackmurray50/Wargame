@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Books;
 using Books.Traits;
-using Books.ArmourSystems;
+using UnitSystems.ArmourSystems;
 
-namespace Books.ArmourSystems{
+namespace UnitSystems.ArmourSystems{
     public class ArmourSystemLibrary : Library<ArmourSystem>
     {
         protected ArmourTraitLibrary atl = new ArmourTraitLibrary();

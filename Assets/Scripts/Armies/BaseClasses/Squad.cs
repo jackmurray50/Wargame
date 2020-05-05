@@ -1,62 +1,106 @@
 using Books.Units;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Books.Units{
 
     //A squad is a grouping of soldiers. Ex: The Scav squad may have scavs, scav sergeants, scav mages, and so on. It holds
     //The amount of each unit allowed, and the total point cost for the unit. It also changes the cost of units, if necessary
     public class Squad : Book{
-        //Need a list of allowed units
-        List<squadComponent> units = new List<squadComponent>();
-        public void addUnits(params squadComponent[] _units){
+        List<Unit> units = new List<Unit>();
+
+        SquadBlockTombstone tombstone = null;
+        public Squad(string _name, SquadBlockTombstone _tombstone) : base(_name){
+            tombstone = _tombstone;
+        }
+
+        public int GetCost(){
+            int output = 0;
+            for(int i = 0; i < units.Count; i++){
+                output += units[i].GetCost();
+            }
+            return output;
+        }
+
+        public void AddUnit(Unit _input){
+            units.Add(_input);
+        }
+    
+
+    }
+    
+    //SquadBlockTombstone is used to hold the 'tombstone' information for a squad, like the name and type. This is important to keep track of which squad
+    //belongs to which squadblock, and to keep the squadblock and squads separate
+    public class SquadBlockTombstone{
+        string name;
+        SquadBlock.SquadType type;
+        public SquadBlockTombstone(string _name, SquadBlock.SquadType _type){
+            name = _name;
+            type = _type;
+        }
+    }
+
+    //SquadOptions hold a function which will alter a Unit based on a Unitblock and pass out a boolean (True if it passed). They also hold a name for the function
+    //and a description, which will be shown to the player.
+    public class SquadOption{
+        string name {get;}
+        Func<Unit, UnitBlock, bool> option {get;}
+        string desc {get;}
+        public SquadOption(string _name, string _desc, Func<Unit, UnitBlock, bool> _option){
+            name = _name;
+            desc = _desc;
+            option = _option;
+        }
+    }
+
+    //SquadBlock holds the possible units, and is used to create a default unit.
+    public class SquadBlock : Books.Book
+    {
+        List<UnitBlock> units = new List<UnitBlock>();
+        List<SquadOption> options = new List<SquadOption>();
+        public SquadBlock(string _name, SquadType _type) : base(_name){
+            type = _type;
+        }
+        public SquadBlockTombstone GetTombstone(){
+            return new SquadBlockTombstone(this.getName(), this.type);
+        }
+
+        public void AddUnits(params UnitBlock[] _units){
             for(int i = 0; i < _units.Length; i++){
                 units.Add(_units[i]);
             }
-        }
-        public SquadType GetClassification(){
-            return type;
+        } 
+
+        public void AddSquadOptions(params SquadOption[] _options){
+            for(int i = 0; i < _options.Length; i++){
+                options.Add(_options[i]);
+            }
         }
         public enum SquadType{
-            COMMAND, //Command-type units.
-            ELITE, //Expensive and rare units, mostly vehicles
-            SUPERHEAVY, //The largest weapons usually seen on the battlefield
-            GRUNT, //The most common types of unit
-            ARTILLERY, //Artillery
-            ASSAULT, //Fast units
-            COLOSSUS, //Super-weapons like massive mechs or godzilla-tier units
-            FORTIFICATION //Immovable units, meant to be placed before the battle
+            ARTILLERY,
+            ASSAULT,
+            COLOSSUS,
+            COMMAND,
+            ELITE,
+            FORTIFICATION,
+            GRUNT,
+            SUPERHEAVY
+        }
+        //Creates a squad with the default parameters
+
+        SquadType type;
+        public Squad CreateDefaultSquad(){
             
+            Squad output = new Squad(this.getName(), this.GetTombstone());
+            for(int i = 0; i < units.Count; i++){
+                if(units[i].IsDefault){
+                    output.AddUnit(units[i].CreateDefaultUnit());
+                }
+            }
 
+            return output;
         }
 
-        private SquadType type;
-        int size;
-
-        public Squad(string _name, SquadType _type, int _size) : base(_name){
-            type = _type;
-            size = _size;
-        }
     }
-
-    //SquadComponent holds the metadata for a unit, in relation to the squad
-    public class squadComponent : Book{
-        public UnitBlock unit;
-        public int maxAmount;
-        public int minAmount = 0;
-        public int cost;
-
-        //Most involved
-        public squadComponent(string _name, UnitBlock _unit, int _maxAmount, int _minAmount, int _cost) : base(_name){
-            unit = _unit;
-            maxAmount = _maxAmount;
-            minAmount = _minAmount;
-            cost = _cost;
-        }
-        //Least involved; any number of units
-        public squadComponent(string _name, UnitBlock _unit) : this(_name, _unit, int.MaxValue, 0, _unit.getCost()){
-
-        }
-    }
-
 }

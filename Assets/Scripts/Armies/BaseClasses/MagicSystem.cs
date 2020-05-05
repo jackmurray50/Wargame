@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Books;
 
-namespace Books.MagicSystems{
+namespace UnitSystems.MagicSystems{
 
     //Holds information about a units magical capabilities. 
     //Each unit will have spell slots and a spell list
-    public class MagicSystem : Book
+    public class MagicSystem : UnitSystem
     {
 
         List<Spell> spellBook = new List<Spell>();

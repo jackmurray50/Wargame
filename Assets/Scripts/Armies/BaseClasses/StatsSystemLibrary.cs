@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Books;
-using Books.StatsSystems;
 
-namespace Books.StatsSystems{
+namespace UnitSystems.StatsSystems{
     public class StatsSystemLibrary : Library<StatsSystem>{
         public override void load(){
             loadStatsSystems();

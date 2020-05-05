@@ -4,8 +4,8 @@ using UnityEngine;
 
 using Books.Traits;
 
-namespace Books.MovementSystems{
-    public class MovementSystem : Book
+namespace UnitSystems.MovementSystems{
+    public class MovementSystem : UnitSystem
     {
 
         protected int primarySpeed;

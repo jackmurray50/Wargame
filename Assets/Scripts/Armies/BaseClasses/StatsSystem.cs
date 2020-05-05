@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Books;
 
-namespace Books.StatsSystems{
-    public class StatsSystem : Book
+namespace UnitSystems.StatsSystems{
+    public class StatsSystem : UnitSystem
     {
         List<Skill> skills = new List<Skill>();
         List<Stat> stats = new List<Stat>();
