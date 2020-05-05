@@ -21,8 +21,13 @@ namespace Armies.Scavengers{
             SquadBlock newSquad;
 
             newSquad = new SquadBlock("Scavengers", SquadBlock.SquadType.GRUNT);
+            newSquad.AddUnits(ul.getItem("Scavengers"));
             newSquad.AddSquadOptions(new SquadOption("Scavenger Flame thrower", "Swap one basic weapon for one Flame Thrower", 
             (unit, block) => this.test(unit, block)));
+
+
+
+            items.Add(newSquad);
 
         }
 
