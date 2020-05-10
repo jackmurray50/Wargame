@@ -45,12 +45,14 @@ namespace Books.Units{
     //and a description, which will be shown to the player.
     public class SquadOption{
         string name {get;}
-        Func<Unit, UnitBlock, bool> option {get;}
+        Func<Unit, UnitBlock, bool> doOption {get;}
+        Func<Unit, UnitBlock, bool> undoOption {get;}
         string desc {get;}
-        public SquadOption(string _name, string _desc, Func<Unit, UnitBlock, bool> _option){
+        public SquadOption(string _name, string _desc, Func<Unit, UnitBlock, bool> _doOption, Func<Unit, UnitBlock, bool> _undoOption){
             name = _name;
             desc = _desc;
-            option = _option;
+            doOption = _doOption;
+            undoOption = _undoOption;
         }
     }
 

@@ -6,10 +6,11 @@ using Books.Units;
 using UnitSystems;
 using UnitSystems.ArmourSystems;
 using UnitSystems.MagicSystems;
+using UnitSystems.MiscSystems;
 using UnitSystems.MovementSystems;
 using UnitSystems.StatsSystems;
 using UnitSystems.WeaponSystems;
-using UnitSystems.Tag;
+using UnitSystems.Sockets;
 
 namespace Armies.Scavengers{
 
@@ -20,19 +21,56 @@ namespace Armies.Scavengers{
         public override void load(){
             SquadBlock newSquad;
 
+            //Create a new squad
             newSquad = new SquadBlock("Scavengers", SquadBlock.SquadType.GRUNT);
-            newSquad.AddUnits(ul.getItem("Scavengers"));
-            newSquad.AddSquadOptions(new SquadOption("Scavenger Flame thrower", "Swap one basic weapon for one Flame Thrower", 
-            (unit, block) => this.test(unit, block)));
+                newSquad.AddUnits(ul.getItem("Scavenger"));
+                //Scavenger options:
+                    //Armour can be either Kevlar or Dyneema, with Kevlar being the default
+                    //Weapons can be either SMG or rifle
+                    //Can have 1 flamethrower, anti-material rifle, or mortar
+                    //Can add in a scavenger mage and foreman
 
+                //SquadOptions represent modifications that you can do to a unit.
+                newSquad.AddSquadOptions(
+                    new SquadOption("Scavenger_Dyneema", "Add or Remove Dyneema", (u, b) => {
+                        //This option adds Dyneema
 
+                        //1. Check whether or not there's already Dyneema. 
+                            //1.1 If so, return false
+                            //1.2 If not, continue
+                        //2. Clear the Socket
+                        //3. Fill it with Dyneema
+                        //4. Return true
+
+                        return true;
+                    },
+                    (u, b) =>{
+                        //This option removes Dyneema
+
+                        //1. Check whether or not there's Dyneema
+                            //1.1 If there's no Dyneema, return false
+                            //1.2 IF there's Dyneema, continue
+                        //2. Clear the Socket
+                        //3. Fill it with the Default system that belongs to the socket
+                        //4. Return true
+
+                        return true;
+                    }
+                    ),
+
+                    
+                    new SquadOption("Scavenger_Foreman", "Add or remove a Scavenger Foreman", (u, b) =>{
+                        return true;
+                    },
+                    (u, b) =>{
+                        return true;
+                    })
+
+                );
+                //End of AddSquadOptions
 
             items.Add(newSquad);
 
-        }
-
-        public bool test(Unit _one, UnitBlock _two){
-            return true;
         }
     }
 
@@ -58,49 +96,47 @@ namespace Armies.Scavengers{
             //(string _name, UnitSystem _unitSystem, UnitSystemTag _tag, bool _isDefault, int _cost)
             UnitBlock newUnit;
 
-            //TODO:
-            //Having multiple systems in one System (ex: 2 pistols, or a pistol and a sword)
-            //Having multiple systems linked to each other (Ex: Make sure that the sergeant gets the sergeant weapons and the sergeant stat system)
-            //Make the game understand which system to remove when an option is chosen. Ex: If a heavy weapon is chosen, remove the Kinetic Rifle
             newUnit = new UnitBlock("Scavenger", true, 8, 5, 20);
+                //First, create the SocketBlocks. These are essentially 'inventory slots'. 
+                newUnit.AddSocketBlock(new SocketBlock("Armour", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
+                newUnit.AddSocketBlock(new SocketBlock("Movement", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
+                newUnit.AddSocketBlock(new SocketBlock("Stats", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
+                newUnit.AddSocketBlock(new SocketBlock("Melee Weapon", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
+                newUnit.AddSocketBlock(new SocketBlock("Ranged Weapon", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
+                newUnit.AddSocketBlock(new SocketBlock("Support Weapon", 1));
+
+                //Add in all the potential systems, making sure to mark the default systems as 'true'
+                newUnit.AddSystems(
+                    //Armour systems
+                    new UnitSystemBlock("Kevlar", asl.getItem("Kevlar"), true, 0, "Armour"),
+                    new UnitSystemBlock("Dyneema", asl.getItem("Dyneema"), false, 2, "Armour"),
+
+                    //Movement systems
+                    new UnitSystemBlock("Infantry 5", mosl.getItem("Infantry 5"), true, 0, "Movement"),
+
+                    //Stats Systems
+                    new UnitSystemBlock("Scavenger", ssl.getItem("Scavenger"), true, 0, "Stats"),
+
+                    //Melee Weapon
+                    new UnitSystemBlock("Unarmed", wsl.getItem("Unarmed"), true, 0, "Melee Weapon"),
+                    new UnitSystemBlock("Bayonet", wsl.getItem("Bayonet"), false, 1, "Melee Weapon"),
+
+                    //Ranged Weapon
+                    new UnitSystemBlock("Kinetic Rifle", wsl.getItem("Kinetic Rifle"), true, 0, "Ranged Weapon"),
+                    new UnitSystemBlock("Kinetic SMG", wsl.getItem("Kinetic SMG"), false, 1, "Ranged Weapon"),
+
+                    //Support Weapon
+                    new UnitSystemBlock("Heavy Flamethrower", wsl.getItem("Heavy Flamethrower"), false, 5, "Support Weapon", 0, 1),
+                    new UnitSystemBlock("Knee Mortar", wsl.getItem("Knee Mortar"), false, 5, "Support Weapon", 0, 1),
+                    new UnitSystemBlock("Anti Material Rifle", wsl.getItem("Anti Material Rifle"), false, 2, "Support Weapon", 0, 2)
+
+                );
+                //CRUCIAL STEP
+                //Adds the unit to the library of units
+                items.Add(newUnit);
             #region Scavenger
                 
-                //Armour
-                UnitSystemTag tag = new UnitSystemTag("Armour", UnitSystemTag.TagType.EXCLUSIVE);
-                newUnit.AddArmourSystems(new UnitSystemBlock("Kevlar", asl.getItem("Kevlar"), tag, true, 0));
-                newUnit.AddArmourSystems(new UnitSystemBlock("Dyneema", asl.getItem("Dyneema"), tag, false, 1));
-
-
-                //Magic Systems
-                tag = new UnitSystemTag("Magic", UnitSystemTag.TagType.REPLACE);
-                newUnit.AddMagicSystems(new UnitSystemBlock("Mundane", masl.getItem("Mundane"), tag, true, 0));
-                newUnit.AddMagicSystems(new UnitSystemBlock("Mage", masl.getItem("Scav Mage"), tag, false, 10, 0, 1));
-
-                //Misc Systems
-
-                //Movement Systems
-                tag = new UnitSystemTag("Movement", UnitSystemTag.TagType.EXCLUSIVE);
-                newUnit.AddMovementSystems(new UnitSystemBlock("Scavenger Movement", mosl.getItem("Infantry 5"), tag, true, 0));
-
-                //StatsSystems
-                tag = new UnitSystemTag("Stats", UnitSystemTag.TagType.REPLACE);
-                newUnit.AddStatsSystems(new UnitSystemBlock("Scavenger", ssl.getItem("Scavenger"), tag, true, 0));
-                newUnit.AddStatsSystems(new UnitSystemBlock("Foreman", ssl.getItem("Scavenger Foreman"), tag, false, 4, 0, 1));
-                newUnit.AddStatsSystems(new UnitSystemBlock("Mage", ssl.getItem("Scavenger Mage"), tag, false, 8, 0, 1));
-
-                //Weapons
-                tag = new UnitSystemTag("Ranged Weapon", UnitSystemTag.TagType.EXCLUSIVE);
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Kinetic Rifle", ssl.getItem("Kinetic Rifle"), tag, true, 0));
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Kinetic Pistol", ssl.getItem("Akimbo Kinetic Pistol"), tag, false, 1));
-                    
-                tag = new UnitSystemTag("Melee Weapon", UnitSystemTag.TagType.EXCLUSIVE);
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Bayonet", ssl.getItem("Bayonet"), tag, true, 0));
-
-                tag = new UnitSystemTag("Support Weapon", UnitSystemTag.TagType.EXCLUSIVE);
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Heavy Flamethrower", ssl.getItem("Heavy Flamethrower"), tag, false, 5, 0, 1));
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Kinetic Anti-Tank Rifle", ssl.getItem("Kinetic Anti-Tank Rifle"), tag, false, 2, 0, 1));
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Kinetic HMG", ssl.getItem("Kinetic HMG"), tag, false, 5, 0, 1));
-                newUnit.AddWeaponSystems(new UnitSystemBlock("Kinetic Mortar", ssl.getItem("Kinetic Mortar"), tag, false, 5, 0, 1));
+               
             #endregion Scavenger
         }
 
@@ -108,6 +144,9 @@ namespace Armies.Scavengers{
 
     }
 
+
+//Army-specific libraries of weapons, magic systems, etc...
+//Create any new systems inside the Load functions
     public class ArmourSystemLibrary_Scav : ArmourSystemLibrary{
         protected override void loadArmourSystems(){
             items.Add(new ArmourSystemInfantry("Kevlar", 1, 6, 2));
@@ -130,6 +169,11 @@ namespace Armies.Scavengers{
         }
     }
 
+    public class MiscSystemLibrary_Scav : MiscSystemLibrary{
+        protected override void LoadMiscSystems(){
+            items.Add(new MiscSystem("Example System", "Description goes here"));
+        }
+    }
     public class MovementSystemLibrary_Scav : MovementSystemLibrary{
 
         private MovementTraitLibrary mtl = new MovementTraitLibrary();

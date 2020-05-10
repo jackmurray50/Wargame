@@ -8,9 +8,12 @@ using Books;
 //MiscSystem represents any systems that doesnt fit into one of the other categories, ex: Radios
 namespace UnitSystems.MiscSystems{
     public class MiscSystem : UnitSystem{
-        public MiscSystem(string _name) : base(_name){
-            
+        string description {get;}
+
+        public MiscSystem(string _name, string _desc) : base(_name){
+            description = _desc;
         }
+
 
 
 
