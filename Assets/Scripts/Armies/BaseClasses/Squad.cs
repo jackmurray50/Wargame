@@ -2,6 +2,7 @@ using Books.Units;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace Books.Units{
 
@@ -26,7 +27,24 @@ namespace Books.Units{
         public void AddUnit(Unit _input){
             units.Add(_input);
         }
-    
+
+        public void RemoveUnit(string _name){
+            for(int i = 0; i < units.Count; i++){
+                if(units[i].getName() == _name){
+                    units.RemoveAt(i);
+                }
+            }
+        }
+
+        public Unit GetUnit(string _name){
+            for(int i = 0; i < units.Count; i++){
+                if(units[i].getName() == _name){
+                    return units[i];
+                }
+            }
+            Debug.Log("<color=red>ERROR: Unit not found </color> Target: \'" + _name + "\'");
+            return null;
+        }
 
     }
     
@@ -45,14 +63,19 @@ namespace Books.Units{
     //and a description, which will be shown to the player.
     public class SquadOption{
         string name {get;}
-        Func<Unit, UnitBlock, bool> doOption {get;}
-        Func<Unit, UnitBlock, bool> undoOption {get;}
+        
+        public delegate void Option(Squad _s, SquadBlock _b);
+        public Option implement {get;}
+        public Option deimplement {get;}
         string desc {get;}
-        public SquadOption(string _name, string _desc, Func<Unit, UnitBlock, bool> _doOption, Func<Unit, UnitBlock, bool> _undoOption){
+
+        bool isActive {get; }
+        public SquadOption(string _name, string _desc, Option _implement, Option _deimplement){
             name = _name;
             desc = _desc;
-            doOption = _doOption;
-            undoOption = _undoOption;
+            implement = _implement;
+            deimplement = _deimplement;
+            isActive = false;
         }
     }
 
@@ -73,6 +96,15 @@ namespace Books.Units{
                 units.Add(_units[i]);
             }
         } 
+
+        public UnitBlock GetUnitBlock(string _name){
+            for(int i = 0; i < units.Count; i++){
+                if(units[i].getName() == _name){
+                    return units[i];
+                }
+            }
+            return null;
+        }
 
         public void AddSquadOptions(params SquadOption[] _options){
             for(int i = 0; i < _options.Length; i++){

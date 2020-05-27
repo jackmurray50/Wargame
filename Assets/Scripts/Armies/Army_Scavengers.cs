@@ -22,6 +22,7 @@ namespace Armies.Scavengers{
             SquadBlock newSquad;
 
             //Create a new squad
+            #region Squad_Scavenger
             newSquad = new SquadBlock("Scavengers", SquadBlock.SquadType.GRUNT);
                 newSquad.AddUnits(ul.getItem("Scavenger"));
                 //Scavenger options:
@@ -32,44 +33,58 @@ namespace Armies.Scavengers{
 
                 //SquadOptions represent modifications that you can do to a unit.
                 newSquad.AddSquadOptions(
-                    new SquadOption("Scavenger_Dyneema", "Add or Remove Dyneema", (u, b) => {
+                    new SquadOption("Scavenger_Dyneema", "Add Dyneema", (s, b) => {
                         //This option adds Dyneema
 
-                        //1. Check whether or not there's already Dyneema. 
-                            //1.1 If so, return false
-                            //1.2 If not, continue
-                        //2. Clear the Socket
-                        //3. Fill it with Dyneema
-                        //4. Return true
+                        //Get the units that are going to be altered
+                        List<Unit> affectedUnits = new List<Unit>();
+                        affectedUnits.Add(s.GetUnit("Scavenger"));
+                        affectedUnits.Add(s.GetUnit("Scavenger Foreman"));
+                        affectedUnits.Add(s.GetUnit("Scavenger Mage"));
 
-                        return true;
+                        //go through the units to be altered, remove their current armour and put Dyneema into the slot
+                        foreach (Unit x in affectedUnits){
+                            x.ClearSocket("Armor");
+                            //The 2nd parameter grabs the Dyneema system from the unit, from the squad
+                            x.AddSystemToSocket("Armor", b.GetUnitBlock("Scavenger").GetSystemBlock("Dyneema").GetSystem());
+                        }
                     },
-                    (u, b) =>{
-                        //This option removes Dyneema
+                    (s, b) =>{
+                        //This code reverts the option
+                        List<Unit> affectedUnits = new List<Unit>();
+                        affectedUnits.Add(s.GetUnit("Scavenger"));
+                        affectedUnits.Add(s.GetUnit("Scavenger Foreman"));
+                        affectedUnits.Add(s.GetUnit("Scavenger Mage"));
 
-                        //1. Check whether or not there's Dyneema
-                            //1.1 If there's no Dyneema, return false
-                            //1.2 IF there's Dyneema, continue
-                        //2. Clear the Socket
-                        //3. Fill it with the Default system that belongs to the socket
-                        //4. Return true
+                        //go through the units to be altered, remove their current armour and put Kevlar into the slot
+                        foreach (Unit x in affectedUnits){
+                            x.ClearSocket("Armor");
+                            //The 2nd parameter grabs the Dyneema system from the unit, from the squad
+                            x.AddSystemToSocket("Armor", b.GetUnitBlock("Scavenger").GetSystemBlock("Kevlar").GetSystem());
+                        }
 
-                        return true;
-                    }
-                    ),
-
+                    }),
                     
-                    new SquadOption("Scavenger_Foreman", "Add or remove a Scavenger Foreman", (u, b) =>{
-                        return true;
+                    new SquadOption("Scavenger_Foreman", "Add a Scavenger Foreman", (s, b) =>{
+                        s.AddUnit(b.GetUnitBlock("Scavenger_Foreman").CreateDefaultUnit());
                     },
-                    (u, b) =>{
-                        return true;
+                    (s, b) =>{
+                        s.RemoveUnit("Scavenger_Foreman");
+                    }),
+                    new SquadOption("Scavenger_Mage", "Add a Scavenger Mage", (s, b) =>
+                    {
+                        s.AddUnit(b.GetUnitBlock("Scavenger_Mage").CreateDefaultUnit());
+                    },
+                    (s, b) =>
+                    {
+                        s.RemoveUnit("Scavenger_Mage");
                     })
 
                 );
                 //End of AddSquadOptions
+                items.Add(newSquad);
+                #endregion Squad_Scavenger
 
-            items.Add(newSquad);
 
         }
     }
@@ -174,6 +189,7 @@ namespace Armies.Scavengers{
             items.Add(new MiscSystem("Example System", "Description goes here"));
         }
     }
+
     public class MovementSystemLibrary_Scav : MovementSystemLibrary{
 
         private MovementTraitLibrary mtl = new MovementTraitLibrary();

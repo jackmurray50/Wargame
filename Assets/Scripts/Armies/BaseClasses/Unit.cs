@@ -22,6 +22,12 @@ namespace Books.Units{
             sockets[_Socket].Clear();
         }
 
+        public void AddSystemToSocket(string _socket, params UnitSystem[] _systems){
+            foreach(UnitSystem x in _systems){
+                sockets[_socket].Add(_systems);
+            }
+        }
+
         public void AddSocket(string _name, Socket _socket){
             sockets.Add(_name, _socket);
         }
