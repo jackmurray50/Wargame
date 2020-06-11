@@ -19,6 +19,28 @@ namespace UnitSystems.MagicSystems{
                 spellslots.Add(_spellSlots[i]);
             }
         }
+
+        private string SpellBookToString(){
+            string output = "";
+            foreach(Spell entry in spellBook){
+                output += entry.ToString();
+                output += ", ";
+            }
+            return output;
+        }
+
+        private string SpellSlotsToString(){
+            string output = "";
+            foreach (SpellSlot entry in spellslots){
+                output += entry.ToString();
+                output += ", ";
+            }
+            return output;
+        }
+
+        public override string ToString(){
+            return $"MagicSystem {this.getName()}, Spell slots = {this.SpellSlotsToString()}, Spellbook = {this.SpellBookToString()}";
+        }
     }
 
     public class Spell : Book{
@@ -35,6 +57,10 @@ namespace UnitSystems.MagicSystems{
             minLevel = _minLevel;
 
         }
+
+        public override string ToString(){
+            return $"{this.getName()}, lvl {this.minLevel}, {description}";
+        }
     }
 
     public class SpellSlot {
@@ -44,6 +70,10 @@ namespace UnitSystems.MagicSystems{
         public SpellSlot(int _amount, int _level){
             level = _level;
             amount = _amount;
+        }
+
+        public override string ToString(){
+            return $"{amount} slots of lvl {level}";
         }
 
     }

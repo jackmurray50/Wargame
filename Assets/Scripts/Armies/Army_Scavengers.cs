@@ -12,11 +12,11 @@ using UnitSystems.StatsSystems;
 using UnitSystems.WeaponSystems;
 using UnitSystems.Sockets;
 
-namespace Armies.Scavengers{
+namespace Armies.Frontier{
 
-    //Squad_Scavengers holds a list of all the squads an army has access to
-    public class Squad_Scavengers : Library<SquadBlock>{
-        Unit_Scavengers ul = new Unit_Scavengers();
+    //FrontierSquadLibrary holds a list of all the squads an army has access to
+    public class FrontierSquadLibrary : Library<SquadBlock>{
+        FrontierUnitLibrary ul = new FrontierUnitLibrary();
 
         public override void load(){
             SquadBlock newSquad;
@@ -89,7 +89,7 @@ namespace Armies.Scavengers{
         }
     }
 
-    public class Unit_Scavengers : Library<UnitBlock>
+    public class FrontierUnitLibrary : Library<UnitBlock>
     {
 
         #region libraries
@@ -111,7 +111,7 @@ namespace Armies.Scavengers{
             //(string _name, UnitSystem _unitSystem, UnitSystemTag _tag, bool _isDefault, int _cost)
             UnitBlock newUnit;
 
-            newUnit = new UnitBlock("Scavenger", true, 8, 5, 20);
+            newUnit = new UnitBlock("Scavenger", true, 5, 20);
                 //First, create the SocketBlocks. These are essentially 'inventory slots'. 
                 newUnit.AddSocketBlock(new SocketBlock("Armour", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
                 newUnit.AddSocketBlock(new SocketBlock("Movement", 1, Socket.SocketType.SCALING, Socket.SocketType.MAIN));
@@ -134,16 +134,16 @@ namespace Armies.Scavengers{
 
                     //Melee Weapon
                     new UnitSystemBlock("Unarmed", wsl.getItem("Unarmed"), true, 0, "Melee Weapon"),
-                    new UnitSystemBlock("Bayonet", wsl.getItem("Bayonet"), false, 1, "Melee Weapon"),
+                    //new UnitSystemBlock("Bayonet", wsl.getItem("Bayonet"), false, 1, "Melee Weapon"),
 
                     //Ranged Weapon
-                    new UnitSystemBlock("Kinetic Rifle", wsl.getItem("Kinetic Rifle"), true, 0, "Ranged Weapon"),
-                    new UnitSystemBlock("Kinetic SMG", wsl.getItem("Kinetic SMG"), false, 1, "Ranged Weapon"),
+                    new UnitSystemBlock("Kinetic Rifle", wsl.getItem("Kinetic Rifle"), true, 0, "Ranged Weapon")//,
+                    //new UnitSystemBlock("Kinetic SMG", wsl.getItem("Kinetic SMG"), false, 1, "Ranged Weapon"),
 
                     //Support Weapon
-                    new UnitSystemBlock("Heavy Flamethrower", wsl.getItem("Heavy Flamethrower"), false, 5, "Support Weapon", 0, 1),
-                    new UnitSystemBlock("Knee Mortar", wsl.getItem("Knee Mortar"), false, 5, "Support Weapon", 0, 1),
-                    new UnitSystemBlock("Anti Material Rifle", wsl.getItem("Anti Material Rifle"), false, 2, "Support Weapon", 0, 2)
+                    //new UnitSystemBlock("Heavy Flamethrower", wsl.getItem("Heavy Flamethrower"), false, 5, "Support Weapon", 0, 1),
+                    //new UnitSystemBlock("Knee Mortar", wsl.getItem("Knee Mortar"), false, 5, "Support Weapon", 0, 1),
+                    //new UnitSystemBlock("Anti Material Rifle", wsl.getItem("Anti Material Rifle"), false, 2, "Support Weapon", 0, 2)
 
                 );
                 //CRUCIAL STEP
@@ -237,7 +237,7 @@ namespace Armies.Scavengers{
             #region RangedWeapons
             //Ranged weapons
             //(string _name, Damage _damage, int _attacks, int _optimalRange, int _falloff, params WeaponTrait[] _traits)
-            items.Add(new WeaponSystemRanged("Frontier Blowback", smallArms, 1, 30, 10));
+            items.Add(new WeaponSystemRanged("Kinetic Rifle", smallArms, 1, 30, 10));
             #endregion RangedWeapons
 
             #region MeleeWeapons

@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Armies;
+using Armies.Frontier;
 
-
-namespace Armies{
-public class ArmyListManager : MonoBehaviour
+public class RosterManager : MonoBehaviour
 {
 
     void Start(){
@@ -15,14 +15,18 @@ public class ArmyListManager : MonoBehaviour
     int currentPage = 0;
     //The list of armies that have been created
     //Each List will have a maximum size of 14, and they'll represent pages
-    public List<List<ArmyList>> armies = new List<List<ArmyList>>();
+    public List<List<Roster>> rosters = new List<List<Roster>>();
 
     [SerializeField]
     private List<Transform> ArmyButtons = new List<Transform>();
 
     //Load in the already-created armies from local
     public void LoadArmiesFromFile(){
-               
+        FrontierSquadLibrary fsl = new FrontierSquadLibrary();
+        rosters.Add(new List<Roster>());
+        Roster test = new Roster("Test One", 0, Roster.Faction.FRONTIERWORLDS);
+        test.AddSquad(fsl.getItem("Scavengers").CreateDefaultSquad());
+        rosters[0].Add(test);              
 
     }
 
@@ -33,13 +37,13 @@ public class ArmyListManager : MonoBehaviour
 
     private void DisplayArmies(int _page){
         //Check if the page can exist
-        if(armies.Count > _page){ 
+        if(rosters.Count > _page){ 
             //There's 14 possible slots for armies, so go through Armies
             int i = 0;
             //Go until you've reached the end of the Armies list 
-            for(; i < armies[_page].Count; i++){
+            for(; i < rosters[_page].Count; i++){
 
-                ArmyButtons[armies[_page][i].GetPosition()].GetComponent<Handler_AM_ListBtn>().SetValues(armies[_page][i]);
+                ArmyButtons[rosters[_page][i].GetPosition()].GetComponent<Handler_AM_ListBtn>().SetValues(rosters[_page][i]);
             }
         }else{ 
             //Page doesn't exist, throw an error
@@ -54,5 +58,4 @@ public class ArmyListManager : MonoBehaviour
 
 
     //The save button will be in its own handler
-}
 }

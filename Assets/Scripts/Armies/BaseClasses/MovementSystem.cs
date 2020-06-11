@@ -43,5 +43,18 @@ namespace UnitSystems.MovementSystems{
             }
         }
 
+        private string TraitsToString(){
+            string output = "";
+            foreach(var entry in traits){
+                output += entry.ToString();
+                output += ", ";
+            }
+            return output;
+        }
+
+        public override string ToString(){
+            return $"{name}, speed = {primarySpeed}, Traits = {TraitsToString()}";
+        }
+
     }
 }

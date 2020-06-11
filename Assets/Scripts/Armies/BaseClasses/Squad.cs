@@ -11,7 +11,7 @@ namespace Books.Units{
     public class Squad : Book{
         List<Unit> units = new List<Unit>();
 
-        SquadBlockTombstone tombstone = null;
+        public SquadBlockTombstone tombstone {get;}
         public Squad(string _name, SquadBlockTombstone _tombstone) : base(_name){
             tombstone = _tombstone;
         }
@@ -52,7 +52,7 @@ namespace Books.Units{
     //belongs to which squadblock, and to keep the squadblock and squads separate
     public class SquadBlockTombstone{
         string name;
-        SquadBlock.SquadType type;
+        public SquadBlock.SquadType type {get;}
         public SquadBlockTombstone(string _name, SquadBlock.SquadType _type){
             name = _name;
             type = _type;
@@ -125,9 +125,10 @@ namespace Books.Units{
 
         SquadType type;
         public Squad CreateDefaultSquad(){
-            
+            Debug.Log("Creating Default \'" + this.getName() + "\' Squad");
             Squad output = new Squad(this.getName(), this.GetTombstone());
             for(int i = 0; i < units.Count; i++){
+                Debug.Log(units[i].getName());
                 if(units[i].IsDefault){
                     output.AddUnit(units[i].CreateDefaultUnit());
                 }

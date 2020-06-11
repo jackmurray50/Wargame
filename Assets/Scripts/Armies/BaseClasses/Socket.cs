@@ -31,12 +31,8 @@ public class Socket : Books.Book{
 
     //Returns the sum of the amount from each system
     public int GetSystemCount(){
-        int output = 0;
-
-        foreach (var item in systems){
-            output += item.amount;
-        }
-        return output;
+        
+        return systems.Count;
     }
 
 
@@ -57,6 +53,10 @@ public class Socket : Books.Book{
 
 }
     public class SocketBlock : Book{
+        /// <summary>
+        /// The amount of systems that can be in a socket
+        /// </summary>
+        /// Ex: if a socket is for WeaponSystems and the unit is a dual-wielder, they'll have a size of two.
         int size;
         public SocketBlock(string _name, int _size, params Socket.SocketType[] _tags) : base(_name){
             size = _size;
@@ -66,13 +66,26 @@ public class Socket : Books.Book{
             }
         }
 
+        /// <summary>
+        /// Add a tag to the socketblock
+        /// </summary>
         public void AddTags(params Socket.SocketType[] _tags){
             for(int i = 0; i < _tags.Length; i++){
                 tags.Add(_tags[i]);
             }
         }
 
-        List<Socket.SocketType> tags {get; set;}
+        /// <summary>
+        /// Get a list of tags associated with the socketblock
+        /// </summary>
+        public List<Socket.SocketType> tags {get;}
+
+        public bool HasTag(Socket.SocketType _tag){
+            if(tags.Contains(_tag)){
+                return true;
+            }
+            return false;
+        }
 
         public Socket GetSocket(){
             Socket output = new Socket(getName(), size, tags);

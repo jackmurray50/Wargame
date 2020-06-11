@@ -12,10 +12,10 @@ namespace Books.Units{
 //Unit represents a constructed unit
     public class Unit : Book
     {   
-        //The systems that the Unit has.
-
+        public int amount {get; set;}
 
         public UnitBlock block {get; set;}
+        //The systems that the Unit has.
         private Dictionary<string, Socket> sockets = new Dictionary<string, Socket>();
 
         public void ClearSocket(string _Socket){
@@ -34,13 +34,33 @@ namespace Books.Units{
 
         public int GetCost(){
             int output = 0;
-
-            output += block.GetCost();
+            foreach(KeyValuePair<string, Socket> entry in sockets){
+                for(int i = 0; i < entry.Value.systems.Count; i++){
+                    output += entry.Value.systems[i].GetCost();
+                }
+            }
             return output;
         }
 
-        public Unit(string _name) : base(_name){
+        public Unit(string _name, UnitBlock _block) : base(_name){
+            this.block = _block;
+            amount = _block.min;
+        }
 
+        public override string ToString(){
+            string output = "";
+            output += $"Name: {this.getName()}\nAmount: {this.amount}\nSockets:\n";
+
+            foreach(KeyValuePair<string, Socket> entry in sockets){
+                output += "\t";
+                output += entry.Key + " Socket\n";
+                foreach(var x in entry.Value.systems){
+                    output += "\t\t";
+                    output += x.ToString();
+                    output += "\n";
+                }
+            }
+            return output;
         }
     }
 
@@ -53,8 +73,8 @@ namespace Books.Units{
         private List<UnitSystemBlock> systems = new List<UnitSystemBlock>();
 
         #region Creation
-        public UnitBlock(string _name, bool _isDefault, int _cost, int _min, int _max) : base(_name, _cost, _min, _max){
-            
+        public UnitBlock(string _name, bool _isDefault, int _min, int _max) : base(_name, _min, _max, 0, _isDefault){
+
         }
 
         //Creates a Unit based on the defaults provided.
@@ -79,7 +99,7 @@ namespace Books.Units{
                 if(systems[i].getName() == _name){
                     return systems[i];
                 }
-            }
+             }
             Debug.Log("<color=red>ERROR:</color> UnitSystemBlock " + _name + " not found in UnitBlock " + getName());
             return null;
         }
@@ -87,7 +107,7 @@ namespace Books.Units{
         
         public Unit CreateDefaultUnit(){
             //Initialize the unit
-            Unit output = new Unit(this.getName());
+            Unit output = new Unit(this.getName(), this);
             //Make sure the unit knows what block its associated with
             output.block = this;
             //Create the units sockets
@@ -96,13 +116,23 @@ namespace Books.Units{
                 Socket newSocket = entry.GetSocket();
                 foreach (UnitSystemBlock s in systems){
                     //If a system is a Default System, add it to the appropriate socket
+                        //Debug.Log($"system: {s.getName()} searching for Socket {s.socket}");
+                        //Debug.Log($"Socket: {entry.getName()}");
                     if(s.socket == entry.getName() && s.IsDefault){
-                        newSocket.Add(s.GetSystem());
+                        //Add the system types
+                        UnitSystem newSystem = s.GetSystem();
+                            //Room here for non-constructor system refinement
+                        newSocket.Add(newSystem);
                     }
                 }
                 output.AddSocket(entry.getName(),newSocket);
             }
+            //Set the amount of each unit the the proper amount
+            Debug.Log("Creating new Unit: " + this.getName());
+            output.amount = this.min;
+            Debug.Log(this.min);
 
+            Debug.Log(output.ToString());
 
             return output;
         }

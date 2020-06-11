@@ -1,16 +1,14 @@
-//ArmyList is effectively a list of Squads
-//Has a name
-//
+//A Roster is a list of squads and their respective settings. 
+//When a game is found, the Roster will be pushed to the server. The army will then be assembled, using this Roster to gather information.
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Books;
+using UnityEngine;
 using Books.Units;
 
-
 namespace Armies{
-public class ArmyList{
+public class Roster{
 
     private int position = 0;
     private List<Faction> factions = new List<Faction>();
@@ -25,8 +23,7 @@ public class ArmyList{
     public void SetPosition(int _position){
         position = _position;
     }
-
-    public enum Faction{
+     public enum Faction{
         NONE,
         UNITEDINNERPLANETS,
         FRONTIERWORLDS,
@@ -34,13 +31,15 @@ public class ArmyList{
         MEDUSAE
     }
 
-
+    public void AddSquad(Squad _squad){
+        squads.Add(_squad);
+    }
 
     public Faction GetFaction(int i){
         return factions[i];
     }
     //Remember, first faction is always the primary
-    public ArmyList(string _name, int _position, params Faction[] _factions){
+    public Roster(string _name, int _position, params Faction[] _factions){
         this.name = _name;
         this.position = _position;
         for(int i = 0; i < _factions.Length; i++){
@@ -59,6 +58,16 @@ public class ArmyList{
         return output;
     }
 
+    public int GetUnitCount(SquadBlock.SquadType _type){
+        int amount = 0;
+        foreach(Squad x in squads){
+            if(x.tombstone.type == _type)
+                amount++;
+        }
+        return amount;
+    }
+
+    
 }
 
 }

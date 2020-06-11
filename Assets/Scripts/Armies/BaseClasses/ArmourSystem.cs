@@ -9,7 +9,7 @@ namespace UnitSystems.ArmourSystems{
     {
         protected string armourType;
 
-        private int mainArmour {get;}
+        public int mainArmour {get;}
         protected List<ArmourTrait> traits = new List<ArmourTrait>();
         protected int hp;
 
@@ -20,6 +20,15 @@ namespace UnitSystems.ArmourSystems{
             }
         }
 
+        protected string TraitsToString(){
+            string output = "";
+            foreach(ArmourTrait entry in traits){
+                output += entry.ToString();
+                output += "\n\t\t\t";
+            }
+            return output;
+        }
+
     }
 
     public class ArmourSystemInfantry : ArmourSystem{
@@ -28,6 +37,10 @@ namespace UnitSystems.ArmourSystems{
         public ArmourSystemInfantry(string _name, int _hp, int _armour, int _dodgeBonus, params ArmourTrait[] _traits) : base(_name, _hp, _armour, _traits){
             base.armourType = "Infantry";
             this.dodgeBonus = _dodgeBonus;
+        }
+
+        public override string ToString(){
+            return $"ArmourSystemInfantry {this.getName()}, hp = {hp}, ac = {this.mainArmour}, Traits = {this.TraitsToString()}";
         }
     }
 
@@ -40,6 +53,10 @@ namespace UnitSystems.ArmourSystems{
             side = _side;
             rear = _rear;
             top = _top;
+        }
+
+        public override string ToString(){
+            return $"ArmourSystemAFV {this.getName()}, hp = {hp}, Front = {this.mainArmour}, Side = {this.side}, Rear = {this.rear}, Top = {this.top}, Traits = {this.TraitsToString()}";
         }
     }
 }

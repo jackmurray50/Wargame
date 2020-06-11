@@ -49,6 +49,10 @@ namespace Books.Traits{
 
         //TODO: Add an icon field
 
+        public override string ToString(){
+            return $"{this.getName()}, {description}";
+        }
+
     }
     public class WeaponTrait : Trait
     {
@@ -83,5 +87,7 @@ namespace Books.Traits{
         }
         public UnitTrait(string _name, string _description, List<string> _restrictions, int _num) : base(_name, _description, _restrictions, _num){
         }
+
+
     }
 }

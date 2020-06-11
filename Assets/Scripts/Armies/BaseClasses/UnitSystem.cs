@@ -6,16 +6,19 @@ using UnitSystems.Sockets;
 namespace UnitSystems{
 public class UnitSystem : Books.Book
 {
-    UnitSystemBlock block;
-    
-    public int amount {get; set;}
+    public UnitSystemBlock block {get; set;}
 
     public UnitSystem(string _name) : base(_name){
+        
     }
 
 
     public int GetCost(){
         return block.GetCost();
+    }
+
+    public override string ToString(){
+        return $"{this.getName()}";
     }
 
 }
@@ -26,18 +29,15 @@ public class UnitSystemBlock : Block{
     public string socket {get;}
 
 
-    public UnitSystemBlock(string _name, UnitSystem _unitSystem, bool _isDefault, int _cost, string _socket, int _min, int _max ) : base(_name, _cost, _min, _max){
+    public UnitSystemBlock(string _name, UnitSystem _unitSystem, bool _isDefault, int _cost, string _socket) : base(_name, _cost, 1, 1, _isDefault){
         unitSystem = _unitSystem;
         socket = _socket;
     }
-    //Constructor for when the system is a whole-squad system
-    public UnitSystemBlock(string _name, UnitSystem _unitSystem, bool _isDefault, int _cost, string _socket) : this(_name, _unitSystem, _isDefault, _cost, _socket, 0,0){
-        unitSystem = _unitSystem;
-        
-    }
 
     public UnitSystem GetSystem(){
-        return unitSystem;
+        UnitSystem output = unitSystem;
+        unitSystem.block = this;
+        return output;
     }
 
 }
