@@ -77,7 +77,7 @@ namespace UnitSystems.MagicSystems{
         }
 
         
-        protected class SpellBook{
+        public class SpellBook{
             string name;
             private List<Spell> spellbook = new List<Spell>();
             public List<Spell> getSpells(){

@@ -16,6 +16,20 @@ namespace UnitSystems.WeaponSystems{
                 traits.Add(_traits[0]);
             }
         }
+
+        public override string ToString(){
+            return $"{this.getName()} {damage.ToString()}";
+        }
+        
+        protected string TraitsToString(){
+            string output = "";
+            foreach(var entry in traits){
+                output += entry.ToString();
+                output += ", ";
+            }
+            return output;
+        }
+
         public class Damage{
             public enum DamageType{
                 ENERGETIC = 0, //Damage dealt through energy. Fire, lightning, etc... are types of this.
@@ -47,6 +61,10 @@ namespace UnitSystems.WeaponSystems{
                 this.deviation = deviation;
 
             }
+
+            public override string ToString(){
+                return $"{min}d{max} {dt.ToString()}, TargetType = {da.ToString()}, Armour Penetration = {armourPenetration}";
+            }
         }
 
     }
@@ -62,6 +80,10 @@ namespace UnitSystems.WeaponSystems{
         public WeaponSystemMelee(string _name, Damage _damage, params WeaponTrait[] _traits) : base(_name, _damage, _traits){
             base.systemType = "Melee";
         }
+
+        public override string ToString(){
+            return $"Type = Melee, {base.ToString()}, Traits = {TraitsToString()}";
+        }
     }
     public class WeaponSystemRanged : WeaponSystemHandheld
     {
@@ -73,9 +95,13 @@ namespace UnitSystems.WeaponSystems{
         public WeaponSystemRanged(string _name, Damage _damage, int _attacks, int _optimalRange, int _falloff, params WeaponTrait[] _traits) : base(_name, _damage, _traits ){
             base.systemType = "Ranged";
             attacks = _attacks;
+            falloff = _falloff;
+            optimalRange = _optimalRange;
+        }
+        public override string ToString(){
+            return $"Type = Ranged, {base.ToString()}, Range = {optimalRange}/{falloff}, Traits = {TraitsToString()}";
+        }
 
-    }
-
-}
+        }
 
 }

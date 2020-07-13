@@ -38,7 +38,9 @@ namespace UnitSystems.WeaponSystems{
 #endregion meleeTraits
 
 #region rangedTraits
-
+            items.Add(new WeaponTrait("Heavy", "If the unit has moved more than half its movement this round, take a -2 penalty to hit. If the unit has fired this round, it may only move half its movement this round.",
+                new List<string>{"Ranged"}
+            ));
 #endregion rangedTraits
         }
 

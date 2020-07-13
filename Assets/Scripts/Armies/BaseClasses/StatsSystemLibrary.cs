@@ -34,6 +34,7 @@ namespace UnitSystems.StatsSystems{
             MAGICRESISTANCE, //Ability to resist magic. Stat is based on magic source
             STEALTH, //Ability to go undetected, dex-based
             DETECTION, //Ability to spot those in stealth. Useful for removing cover bonus. int-based
+            LEADERSHIP //Ability to aid allies Bravery and coordinate work
 
 
         }
@@ -77,6 +78,8 @@ namespace UnitSystems.StatsSystems{
                     return createSkill("Melee", AvailableStatistics.STRENGTH);
                 case AvailableSkills.STEALTH:
                     return createSkill("Stealth", AvailableStatistics.DEXTERITY);
+                case AvailableSkills.LEADERSHIP:
+                    return createSkill("Leadership", AvailableStatistics.DETERMINATION);
             }
             Debug.Log("StatsSystemLibrary: Skill not found");
             return null;

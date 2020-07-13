@@ -64,6 +64,31 @@ namespace UnitSystems.StatsSystems{
 
             return int.MaxValue;
         }
+    
+        private string SkillsToString(){
+            string output = "";
+            foreach (Skill entry in skills){
+                output += entry.ToString();
+                int skillValue = specialization;
+                skillValue += this.getStat(entry.getName());
+            }
+            return output;
+        }
+
+        private string StatsToString(){
+            string output = "";
+            foreach(Stat entry in stats){
+                output += entry.ToString();
+                output += ", ";
+            }
+
+            return output;
+
+        }
+
+        public override string ToString(){
+            return $"{this.getName()}, Specialization Bonus = {specialization}, Skills = {SkillsToString()}, Stats = {StatsToString()}";
+        }
     }
 
     public class Stat : Book{
@@ -74,6 +99,10 @@ namespace UnitSystems.StatsSystems{
         public Stat(string _name, int _number) : base(_name){
             number = _number;
         }
+
+        public override string ToString(){
+            return $"{this.getName()} = {number}";
+        }
     }
 
     public class Skill : Book{
@@ -83,6 +112,10 @@ namespace UnitSystems.StatsSystems{
         }
         public Skill(string _name, string _stat) : base(_name){
             assocStat = _stat;
+        }
+
+        public override string ToString(){
+            return $"{this.getName()}";
         }
 
     }

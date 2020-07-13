@@ -9,23 +9,42 @@ namespace Books.Units{
     //A squad is a grouping of soldiers. Ex: The Scav squad may have scavs, scav sergeants, scav mages, and so on. It holds
     //The amount of each unit allowed, and the total point cost for the unit. It also changes the cost of units, if necessary
     public class Squad : Book{
+
+        //The list of units this squad can access
         List<Unit> units = new List<Unit>();
 
-        public SquadBlockTombstone tombstone {get;}
-        public Squad(string _name, SquadBlockTombstone _tombstone) : base(_name){
-            tombstone = _tombstone;
+        //The list of options this squad has
+        private List<SquadOption> options = new List<SquadOption>();
+        public enum SquadType{
+            ARTILLERY,
+            ASSAULT,
+            COLOSSUS,
+            COMMAND,
+            ELITE,
+            FORTIFICATION,
+            GRUNT,
+            SUPERHEAVY
+        }
+        public SquadType squadType {get;}
+
+        public string displayName {get; set;}
+        public Squad(string _name, SquadType _type) : base(_name){
+            squadType = _type;
+            displayName = _name;
         }
 
         public int GetCost(){
             int output = 0;
-            for(int i = 0; i < units.Count; i++){
-                output += units[i].GetCost();
+            for(int i = 0; i < options.Count; i++){
+                output += options[i].GetTotalCost();
             }
             return output;
         }
 
-        public void AddUnit(Unit _input){
-            units.Add(_input);
+        public void AddUnits(params Unit[] _input){
+            for(int i = 0; i < _input.Length; i++){
+                units.Add(_input[0]);
+            }
         }
 
         public void RemoveUnit(string _name){
@@ -46,96 +65,94 @@ namespace Books.Units{
             return null;
         }
 
-    }
-    
-    //SquadBlockTombstone is used to hold the 'tombstone' information for a squad, like the name and type. This is important to keep track of which squad
-    //belongs to which squadblock, and to keep the squadblock and squads separate
-    public class SquadBlockTombstone{
-        string name;
-        public SquadBlock.SquadType type {get;}
-        public SquadBlockTombstone(string _name, SquadBlock.SquadType _type){
-            name = _name;
-            type = _type;
+        public void AddOption(SquadOption _option){
+            options.Add(_option);
         }
-    }
-
-    //SquadOptions hold a function which will alter a Unit based on a Unitblock and pass out a boolean (True if it passed). They also hold a name for the function
-    //and a description, which will be shown to the player.
-    public class SquadOption{
-        string name {get;}
-        
-        public delegate void Option(Squad _s, SquadBlock _b);
-        public Option implement {get;}
-        public Option deimplement {get;}
-        string desc {get;}
-
-        bool isActive {get; }
-        public SquadOption(string _name, string _desc, Option _implement, Option _deimplement){
-            name = _name;
-            desc = _desc;
-            implement = _implement;
-            deimplement = _deimplement;
-            isActive = false;
-        }
-    }
-
-    //SquadBlock holds the possible units, and is used to create a default unit.
-    public class SquadBlock : Books.Book
-    {
-        List<UnitBlock> units = new List<UnitBlock>();
-        List<SquadOption> options = new List<SquadOption>();
-        public SquadBlock(string _name, SquadType _type) : base(_name){
-            type = _type;
-        }
-        public SquadBlockTombstone GetTombstone(){
-            return new SquadBlockTombstone(this.getName(), this.type);
-        }
-
-        public void AddUnits(params UnitBlock[] _units){
-            for(int i = 0; i < _units.Length; i++){
-                units.Add(_units[i]);
-            }
-        } 
-
-        public UnitBlock GetUnitBlock(string _name){
-            for(int i = 0; i < units.Count; i++){
-                if(units[i].getName() == _name){
-                    return units[i];
+        public SquadOption GetOption(string _name){
+            for(int i = 0; i < options.Count; i++){
+                if(_name == options[i].name){
+                    return options[i];
                 }
             }
             return null;
         }
 
-        public void AddSquadOptions(params SquadOption[] _options){
-            for(int i = 0; i < _options.Length; i++){
-                options.Add(_options[i]);
+        public override string ToString(){
+            string output = $"{this.getName()}({this.displayName}), Total cost == {this.GetCost()} \n{options.Count} options: ";
+            foreach (var entry in options){
+                output += $"\n{entry.ToString()}";
             }
-        }
-        public enum SquadType{
-            ARTILLERY,
-            ASSAULT,
-            COLOSSUS,
-            COMMAND,
-            ELITE,
-            FORTIFICATION,
-            GRUNT,
-            SUPERHEAVY
-        }
-        //Creates a squad with the default parameters
-
-        SquadType type;
-        public Squad CreateDefaultSquad(){
-            Debug.Log("Creating Default \'" + this.getName() + "\' Squad");
-            Squad output = new Squad(this.getName(), this.GetTombstone());
-            for(int i = 0; i < units.Count; i++){
-                Debug.Log(units[i].getName());
-                if(units[i].IsDefault){
-                    output.AddUnit(units[i].CreateDefaultUnit());
-                }
+            output += "\n";
+            foreach (var entry in units){
+                output += $"\n{entry.ToString()}";
             }
 
             return output;
         }
+
+    }
+
+    //SquadOptions hold a function which will alter a Unit based on a Unitblock and pass out a boolean (True if it passed). They also hold a name for the function
+    //and a description, which will be shown to the player.
+    public class SquadOption{
+        public string name {get;}
+        
+        //Represents the amount of states for the option. Ex:
+        //One squad option could be binary, in which case optionLimit would be 1. That would be something like "Substitute Kevlar for Dyneema"
+        //Another option could have up to 20 states, if it were the amount of units in the squad.
+        public int optionLimit {get;}
+
+        public int optionNum {get; set;}
+        public delegate void Option(Squad _s);
+
+        public delegate int CostCalculator(SquadOption _s);
+        public Option implement {get;}
+        public Option deimplement {get;}
+        private CostCalculator costCalculator;
+        string desc {get;}
+
+        //Represents if the option should be displayed
+        public bool isActive {get; set;}
+
+        //Return the base cost of the option. 
+        public int baseCost {get;}
+        public Squad squad {get; set;}
+
+        public int GetTotalCost(){
+            return costCalculator(this);
+        }
+        public SquadOption(string _name, string _desc, int _cost, int _optionLimit, Option _implement, Option _deimplement, CostCalculator _ccalc){
+            name = _name;
+            desc = _desc;
+            implement = _implement;
+            deimplement = _deimplement;
+            isActive = false;
+            baseCost = _cost;
+            optionLimit = _optionLimit;
+            optionNum = 0;
+            costCalculator = _ccalc;
+        }
+
+
+
+
+        public override string ToString(){
+            string output = "";
+            output += $"{name}, {desc}, ";
+            if(optionLimit == 1){
+                output += "Boolean option";
+                if(optionNum == 0){
+                    output += "(Off)";
+                }else{
+                    output += "(On)";
+                }
+            }else{
+                output += $"Limit is {optionLimit} ({optionNum}/{optionLimit})";
+            }
+            output += $", Cost: {baseCost}/{this.GetTotalCost()}";
+            return output;
+        }
+
 
     }
 }

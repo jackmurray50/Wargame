@@ -22,14 +22,14 @@ public class Handler_AM_ListBtn : MonoBehaviour
 
         transform.Find("Word Backdrop").Find("Name").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetName());
         transform.Find("Word Backdrop").Find("Cost").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetCost().ToString());
-        transform.Find("AssaultCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.ASSAULT).ToString());
-        transform.Find("EliteCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.ELITE).ToString());
-        transform.Find("CommandCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.COMMAND).ToString());
-        transform.Find("ColossusCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.COLOSSUS).ToString());
-        transform.Find("GruntCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.GRUNT).ToString());
-        transform.Find("ArtilleryCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.ARTILLERY).ToString());
-        transform.Find("SuperHeavyCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.SUPERHEAVY).ToString());
-        transform.Find("FortificationCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.SquadBlock.SquadType.FORTIFICATION).ToString());
+        transform.Find("AssaultCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.ASSAULT).ToString());
+        transform.Find("EliteCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.ELITE).ToString());
+        transform.Find("CommandCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.COMMAND).ToString());
+        transform.Find("ColossusCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.COLOSSUS).ToString());
+        transform.Find("GruntCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.GRUNT).ToString());
+        transform.Find("ArtilleryCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.ARTILLERY).ToString());
+        transform.Find("SuperHeavyCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.SUPERHEAVY).ToString());
+        transform.Find("FortificationCounting").Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().SetText(_army.GetUnitCount(Books.Units.Squad.SquadType.FORTIFICATION).ToString());
 
         SetBackground(_army.GetFaction(0));
         army = _army;

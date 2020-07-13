@@ -31,8 +31,13 @@ public class Roster{
         MEDUSAE
     }
 
-    public void AddSquad(Squad _squad){
+    public void AddSquad(Squad _squad, string _name){
+        _squad.displayName = _name;
         squads.Add(_squad);
+    }
+
+    public Squad GetSquad(string _key){
+        return squads.Find(e => e.displayName == _key);
     }
 
     public Faction GetFaction(int i){
@@ -58,10 +63,10 @@ public class Roster{
         return output;
     }
 
-    public int GetUnitCount(SquadBlock.SquadType _type){
+    public int GetUnitCount(Squad.SquadType _type){
         int amount = 0;
         foreach(Squad x in squads){
-            if(x.tombstone.type == _type)
+            if(x.squadType == _type)
                 amount++;
         }
         return amount;

@@ -25,7 +25,14 @@ public class RosterManager : MonoBehaviour
         FrontierSquadLibrary fsl = new FrontierSquadLibrary();
         rosters.Add(new List<Roster>());
         Roster test = new Roster("Test One", 0, Roster.Faction.FRONTIERWORLDS);
-        test.AddSquad(fsl.getItem("Scavengers").CreateDefaultSquad());
+        test.AddSquad(System.ObjectExtensions.Copy(fsl.getItem("Frontiersmen")), "Test Frontiersmen");
+
+        Debug.Log(test.GetSquad("Test Frontiersmen"));
+        test.GetSquad("Test Frontiersmen").GetOption("Dyneema").implement(test.GetSquad("Test Frontiersmen"));
+        Debug.Log(test.GetSquad("Test Frontiersmen"));
+        test.AddSquad(System.ObjectExtensions.Copy(fsl.getItem("Frontiersmen")), "Test Frontiersmen 2");
+         Debug.Log(test.GetSquad("Test Frontiersmen 2"));
+
         rosters[0].Add(test);              
 
     }

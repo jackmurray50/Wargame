@@ -10,10 +10,10 @@ namespace UnitSystems.MagicSystems{
     public class MagicSystem : UnitSystem
     {
 
-        List<Spell> spellBook = new List<Spell>();
+        MagicSystemLibrary.SpellBook spellBook;
         List<SpellSlot> spellslots = new List<SpellSlot>();
 
-        public MagicSystem(string _name, List<Spell> _spellbook, params SpellSlot[] _spellSlots) : base(_name){
+        public MagicSystem(string _name, MagicSystemLibrary.SpellBook _spellbook, params SpellSlot[] _spellSlots) : base(_name){
             spellBook = _spellbook;
             for(int i = 0; i < _spellSlots.Length; i++){   
                 spellslots.Add(_spellSlots[i]);
@@ -22,7 +22,7 @@ namespace UnitSystems.MagicSystems{
 
         private string SpellBookToString(){
             string output = "";
-            foreach(Spell entry in spellBook){
+            foreach(Spell entry in spellBook.getSpells()){
                 output += entry.ToString();
                 output += ", ";
             }
