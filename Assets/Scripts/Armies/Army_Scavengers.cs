@@ -51,7 +51,8 @@ namespace Armies.Frontier{
                 }),
                 new SquadOption.CostCalculator( e => {
                     return e.optionNum * e.baseCost;
-                })
+                }),
+                SquadOption.Tag.SQUADSIZE
             ));
             //TODO: Create a 'base' amount of units in a squad
             //2.  Change the armour of each unit to Dyneema, or back to Kevlar

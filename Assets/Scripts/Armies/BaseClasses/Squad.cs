@@ -11,7 +11,7 @@ namespace Books.Units{
     public class Squad : Book{
 
         //The list of units this squad can access
-        List<Unit> units = new List<Unit>();
+        public List<Unit> units {get;}
 
         //The list of options this squad has
         private List<SquadOption> options = new List<SquadOption>();
@@ -29,6 +29,7 @@ namespace Books.Units{
 
         public string displayName {get; set;}
         public Squad(string _name, SquadType _type) : base(_name){
+            units = new List<Unit>();
             squadType = _type;
             displayName = _name;
         }
@@ -102,7 +103,22 @@ namespace Books.Units{
         //Another option could have up to 20 states, if it were the amount of units in the squad.
         public int optionLimit {get;}
 
+        //Represents the current option state
         public int optionNum {get; set;}
+
+        //Represents the various 'tags' an option can have, used for 
+        public enum Tag{
+            //An option that dictates the size of the squad
+            SQUADSIZE
+        }
+
+        public List<Tag> tags {get;}
+
+        public bool HasTag(Tag _key){
+            return tags.Contains(_key);
+        }
+
+
         public delegate void Option(Squad _s);
 
         public delegate int CostCalculator(SquadOption _s);
@@ -121,7 +137,7 @@ namespace Books.Units{
         public int GetTotalCost(){
             return costCalculator(this);
         }
-        public SquadOption(string _name, string _desc, int _cost, int _optionLimit, Option _implement, Option _deimplement, CostCalculator _ccalc){
+        public SquadOption(string _name, string _desc, int _cost, int _optionLimit, Option _implement, Option _deimplement, CostCalculator _ccalc, params Tag[] _tags){
             name = _name;
             desc = _desc;
             implement = _implement;
@@ -131,6 +147,10 @@ namespace Books.Units{
             optionLimit = _optionLimit;
             optionNum = 0;
             costCalculator = _ccalc;
+            tags = new List<Tag>();
+            foreach(var entry in _tags){
+                tags.Add(entry);
+            }
         }
 
 

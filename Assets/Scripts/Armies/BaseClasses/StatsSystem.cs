@@ -11,6 +11,7 @@ namespace UnitSystems.StatsSystems{
         //The bonus that having a relevant skill gives
         private int specialization;
         public StatsSystem(string _name, int _specialization, params Stat[] _stats) : base(_name){
+            base.SetType("Stats");
             this.specialization = _specialization;
             setStats(_stats);
 
@@ -40,7 +41,7 @@ namespace UnitSystems.StatsSystems{
             }
         }
 
-        public int getStat(string name){
+        public int GetStat(string name){
             for(int i = 0; i < stats.Count; i++){
                 if(stats[i].getName() == name){
                     return stats[i].getNumber();
@@ -51,9 +52,9 @@ namespace UnitSystems.StatsSystems{
         }
 
         //Get the total skill modifier. So skill + stat
-        public int getSkill(string name, string _stat){
+        public int GetSkill(string name, string _stat){
             //First, check if the unit has the relevant stat. If they don't, assume the stat is 0.
-            int output = getStat(_stat);
+            int output = GetStat(_stat);
 
             //Second, check if the unit has the skill
             for(int i = 0; i < this.skills.Count; i++){
@@ -70,7 +71,7 @@ namespace UnitSystems.StatsSystems{
             foreach (Skill entry in skills){
                 output += entry.ToString();
                 int skillValue = specialization;
-                skillValue += this.getStat(entry.getName());
+                skillValue += this.GetStat(entry.getName());
             }
             return output;
         }

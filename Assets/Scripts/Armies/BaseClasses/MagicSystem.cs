@@ -14,6 +14,7 @@ namespace UnitSystems.MagicSystems{
         List<SpellSlot> spellslots = new List<SpellSlot>();
 
         public MagicSystem(string _name, MagicSystemLibrary.SpellBook _spellbook, params SpellSlot[] _spellSlots) : base(_name){
+            base.SetType("Magic");
             spellBook = _spellbook;
             for(int i = 0; i < _spellSlots.Length; i++){   
                 spellslots.Add(_spellSlots[i]);

@@ -59,6 +59,7 @@ public class RosterManager : MonoBehaviour
         for(int i = 0; i < 15; i++){ //Cycle through all the buttons
             if(!ArmyButtons[i].GetComponent<Handler_AM_ListBtn>().HasArmy()){
                 ArmyButtons[i].GetComponent<Handler_AM_ListBtn>().SetPlaceholder();
+                ArmyButtons[i].GetComponent<Handler_AM_NewListBtn>().position = i;
             }
         }
     }

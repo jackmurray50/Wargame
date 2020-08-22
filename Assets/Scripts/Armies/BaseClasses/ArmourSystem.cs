@@ -7,14 +7,15 @@ using Books;
 namespace UnitSystems.ArmourSystems{
     public abstract class ArmourSystem : UnitSystem
     {
-        protected string armourType;
 
         public int mainArmour {get;}
         protected List<ArmourTrait> traits = new List<ArmourTrait>();
-        protected int hp;
+        public int hp {get; private set;}
 
         public ArmourSystem(string _name, int _hp, int _mainArmour, params ArmourTrait[] _traits) : base(_name){
+            base.SetType("Armour");
             mainArmour = _mainArmour;
+            hp = _hp;
             for(int i = 0; i < _traits.Length; i++){
                 traits.Add(_traits[i]);
             }
@@ -32,10 +33,10 @@ namespace UnitSystems.ArmourSystems{
     }
 
     public class ArmourSystemInfantry : ArmourSystem{
-        int dodgeBonus {get;}
+        public int dodgeBonus {get;}
         
         public ArmourSystemInfantry(string _name, int _hp, int _armour, int _dodgeBonus, params ArmourTrait[] _traits) : base(_name, _hp, _armour, _traits){
-            base.armourType = "Infantry";
+            base.SetType("ArmourInfantry");
             this.dodgeBonus = _dodgeBonus;
         }
 
@@ -45,11 +46,11 @@ namespace UnitSystems.ArmourSystems{
     }
 
     public class ArmourSystemAFV : ArmourSystem{
-        int side {get;}
-        int rear {get;}
-        int top {get;}
+        public int side {get;}
+        public int rear {get;}
+        public int top {get;}
         public ArmourSystemAFV(string _name, int _hp, int _front, int _side, int _rear, int _top, params ArmourTrait[] _traits) : base(_name, _hp, _front, _traits){
-            base.armourType = "AFV";
+            base.SetType("ArmourAFV");
             side = _side;
             rear = _rear;
             top = _top;

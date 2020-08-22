@@ -17,6 +17,105 @@ namespace Books.Units{
 
         public int amount {get; set;}
 
+        //All the GetStat methods will go through the units sockets and find systems that have
+        //the right state. Then it'll add them together, and return the number.
+        //TODO: Current issue is there's no way for the game to understand if there's no stat for a certain
+        //unit
+        public int GetHP(){
+            int output = 0;
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "ArmourInfantry"){
+                        ArmourSystemInfantry asi = (ArmourSystemInfantry)y;
+                        output += asi.hp;
+                    }
+                    if(y.type == "ArmourAFV"){
+                        ArmourSystemAFV asv = (ArmourSystemAFV)y;
+                        output += asv.hp;
+                    }
+                }
+            }
+            return output;
+        }
+
+        public string GetArmour(){
+            string output = "";
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "ArmourInfantry"){
+                        ArmourSystemInfantry asi = (ArmourSystemInfantry)y;
+                        output += asi.mainArmour;
+                    }
+                    if(y.type == "ArmourAFV"){
+                        ArmourSystemAFV asv = (ArmourSystemAFV)y;
+                        output += $"F: {asv.mainArmour} S: {asv.side} B: {asv.rear} T: {asv.top}";
+                    }
+                }
+            }
+            
+            return output;
+        }
+
+        public int GetSize(){
+            return 0;
+        }
+
+        public int GetStrength(){
+            int output = 0;
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "Stats"){
+                        StatsSystem ss = (StatsSystem)y;
+                        output += ss.GetStat("Strength");
+                    }
+                }
+            }
+            return output;
+        }
+
+        public int GetDexterity(){
+                        int output = 0;
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "Stats"){
+                        StatsSystem ss = (StatsSystem)y;
+                        output += ss.GetStat("Dexterity");
+                    }
+                }
+            }
+            return output;
+        }
+
+        public int GetIntelligence(){
+            int output = 0;
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "Stats"){
+                        StatsSystem ss = (StatsSystem)y;
+                        output += ss.GetStat("Intelligence");
+                    }
+                }
+            }
+            return output;
+        }
+
+        public int GetDetermination(){
+            int output = 0;
+            foreach(var x in sockets){
+                foreach(UnitSystem y in x.Value.systems){
+                    if(y.type == "Stats"){
+                        StatsSystem ss = (StatsSystem)y;
+                        output += ss.GetStat("Determination");
+                    }
+                }
+            }
+            return output;
+        }
+
+        public int GetMovement(){
+            return 6;
+        }
+
         public void ClearSocket(string _Socket){
             sockets[_Socket].Clear();
         }

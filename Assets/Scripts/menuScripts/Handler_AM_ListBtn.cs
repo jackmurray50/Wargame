@@ -9,6 +9,8 @@ namespace Armies{
 public class Handler_AM_ListBtn : MonoBehaviour
 {
 
+
+
     [SerializeField]
     List<Sprite> armyLogos = new List<Sprite>();
 

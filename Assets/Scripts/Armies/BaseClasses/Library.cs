@@ -12,6 +12,10 @@ namespace Books{
         protected List<T> items = new List<T>();
 
         public int getCount(){
+            if(!hasLoaded){
+                load();
+                hasLoaded = true;
+            }
             return items.Count;
         }
         public List<T> getItems(){

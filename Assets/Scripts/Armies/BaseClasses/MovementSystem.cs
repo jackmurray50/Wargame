@@ -34,6 +34,7 @@ namespace UnitSystems.MovementSystems{
         }
 
         public MovementSystem(string _name, int _speed, float _rotationCost, Terrain _terrain, params MovementTrait[] _traits) : base(_name){
+            base.SetType("Movement");
             this.primarySpeed = _speed;
             this.rotationCost = _rotationCost;
             this.terrain = _terrain;

@@ -11,6 +11,7 @@ namespace UnitSystems.MiscSystems{
         string description {get;}
 
         public MiscSystem(string _name, string _desc) : base(_name){
+            base.SetType("Misc");
             description = _desc;
         }
 

@@ -11,6 +11,7 @@ namespace UnitSystems.WeaponSystems{
         
         public List<WeaponTrait> traits = new List<WeaponTrait>();
         protected WeaponSystem(string n, Damage d, params WeaponTrait[] _traits) : base(n){
+            base.SetType("Weapon");
             damage = d;
             for(int i = 0; i < _traits.Length; i++){
                 traits.Add(_traits[0]);
