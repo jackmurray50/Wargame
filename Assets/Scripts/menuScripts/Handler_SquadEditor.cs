@@ -11,7 +11,8 @@ public class Handler_SquadEditor : MonoBehaviour
 
     //position does nothing for now, its just setting up for drag+drop functionality in the future.
     public void InstantiateSquad(Squad _squad, int position){
-        Instantiate(SquadEditorPrefab, new Vector3(1,1,1) , Quaternion.identity);
+        Transform newSquad = Instantiate(SquadEditorPrefab, transform.position, Quaternion.identity, transform);
+        newSquad.GetComponent<Handler_SquadEditorPrefab>().SetSquad(_squad);
     }
 
 }

@@ -220,7 +220,7 @@ namespace Armies.Frontier{
                 newUnit.AddSystemToSocket("Armour", asl.getItem("Kevlar"));
                 newUnit.AddSystemToSocket("Ranged Weapon", wsl.getItem("Kinetic Rifle"));
                 newUnit.AddSystemToSocket("Melee Weapon", wsl.getItem("Standard Sword"));
-                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersmen"));
+                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersman Sergeant"));
                 newUnit.AddSystemToSocket("Movement", mosl.getItem("Infantry 5"));
 
             items.Add(newUnit);
@@ -236,7 +236,7 @@ namespace Armies.Frontier{
                 //Set kevlar as the default item
                 newUnit.AddSystemToSocket("Armour", asl.getItem("Kevlar"));
                 newUnit.AddSystemToSocket("Magic", masl.getItem("Frontiersmen Mage"));
-                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersmen"));
+                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersman Mage"));
                 newUnit.AddSystemToSocket("Movement", mosl.getItem("Infantry 5"));
 
             items.Add(newUnit);

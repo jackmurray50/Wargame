@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using SLS.Widgets.Table;
 using Books.Units;
+using TMPro;
 
-using Armies.Frontier;
 public class Handler_SquadEditorPrefab : MonoBehaviour
 {
     //This is the table that'll hold the units stats. HP, AC, dex, int, so on.
+    [SerializeField]
     private Table UnitTable;
-    //private Table WeaponTable;
+    
+    [SerializeField]
+    private Table WeaponTable;
 
 
     //Setting this as SerializeField for debugging purposes.
@@ -19,19 +22,18 @@ public class Handler_SquadEditorPrefab : MonoBehaviour
 
     public void SetSquad(Squad _squad){
         squad = _squad;
+        Populate();
     }
 
 
     void Start()
     {
-        squad = new FrontierSquadLibrary().getItem("Frontiersmen");
-        UnitTable = gameObject.GetComponentInChildren<Table>();
-        Debug.Log(UnitTable);
-        this.PopulateTables();
     }
 
-    private void PopulateTables(){
+    private void Populate(){
         PopulateUnitTable();
+        transform.Find("SquadName").GetComponent<TextMeshProUGUI>().SetText(squad.displayName);
+        transform.Find("SquadCost").GetComponent<TextMeshProUGUI>().SetText(squad.GetCost().ToString());
     }
 
     private void PopulateUnitTable(){

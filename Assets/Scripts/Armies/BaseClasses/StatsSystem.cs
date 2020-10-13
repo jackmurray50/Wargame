@@ -60,7 +60,7 @@ namespace UnitSystems.StatsSystems{
             for(int i = 0; i < this.skills.Count; i++){
                 if(skills[i].getName() == name){
                     output += specialization;
-                }
+                } 
             }
 
             return int.MaxValue;
