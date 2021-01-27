@@ -15,7 +15,7 @@ public class Handler_MainMenuBtn : MonoBehaviour
         menuElement[element].SetActive(true);
         for(int i = 0; i < menuElement.Count; i++){
             if(i != element){
-                menuElement [i].SetActive(false);
+                menuElement[i].SetActive(false);
             }
         }
     }

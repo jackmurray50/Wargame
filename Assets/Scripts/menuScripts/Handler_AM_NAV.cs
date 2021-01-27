@@ -9,20 +9,19 @@ public class Handler_AM_NAV : MonoBehaviour
 
     [SerializeField]
     WindowManager windowManager;
+    [SerializeField]
+    Transform ArmyNameGameObject;
     public void OnClickFinishBtn(){
         //Create a new ArmyList and send it to the Roster Viewer
 
 
         //Open the Roster panel
-        //Hide the new army background
-        //transform.parent.gameObject.SetActive(false);
-        //Hide the roster list
-        //transform.parent.parent.Find("AM_ListBackdrop").gameObject.SetActive(false);
-        
-        //Show the Roster Viewer
-        //transform.parent.parent.Find("AM_ViewerBackdrop").gameObject.SetActive(true); 
-
         windowManager.SetState(WindowManager.States.ARMYMANAGER_ARMYVIEWER);
+        //Create a new roster with the right name and type
+        Armies.Roster roster = CreateRoster(ArmyNameGameObject.GetComponent<TextMeshProUGUI>().text, 
+            Armies.Roster.Faction.FRONTIERWORLDS
+            ); //TODO: Include getting the faction. Probably some big if/else statement for the dropdowns
+        //Send it to the roster viewer
     }
 
     public void OnChangeFactionSelectorDropdown(){
@@ -45,9 +44,10 @@ public class Handler_AM_NAV : MonoBehaviour
 
     //Since there'll be multiple types of Rosters, depending on which armies it is composed of, there will be more than one
     //roster subclass. The CreateRoster method selects the subclass and returns a new roster will all the proper information
-    private Armies.Roster CreateRoster(){
-        //TODO: Properly implement
-        return new Armies.Roster("", position);
+    private Armies.Roster CreateRoster(string name, params Armies.Roster.Faction[] factions){
 
+        Armies.Roster roster = new Armies.Roster(name, position, factions);
+
+        return roster;
     }
 }

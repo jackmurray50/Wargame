@@ -185,7 +185,7 @@ namespace Armies.Frontier{
                 newUnit.AddSystemToSocket("Armour", asl.getItem("Kevlar"));
                 newUnit.AddSystemToSocket("Ranged Weapon", wsl.getItem("Kinetic Rifle"));
                 newUnit.AddSystemToSocket("Melee Weapon", wsl.getItem("Unarmed"));
-                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersmen"));
+                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersman"));
                 newUnit.AddSystemToSocket("Movement", mosl.getItem("Infantry 5"));
 
             items.Add(newUnit);
@@ -203,7 +203,7 @@ namespace Armies.Frontier{
                 newUnit.AddSystemToSocket("Heavy Weapon", wsl.getItem("Kinetic HMG"));
                 newUnit.AddSystemToSocket("Personal Defense Weapon", wsl.getItem("Kinetic PDW"));
                 newUnit.AddSystemToSocket("Melee Weapon", wsl.getItem("Unarmed"));
-                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersmen"));
+                newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersman"));
                 newUnit.AddSystemToSocket("Movement", mosl.getItem("Infantry 5"));
 
             items.Add(newUnit);
@@ -235,7 +235,7 @@ namespace Armies.Frontier{
                 
                 //Set kevlar as the default item
                 newUnit.AddSystemToSocket("Armour", asl.getItem("Kevlar"));
-                newUnit.AddSystemToSocket("Magic", masl.getItem("Frontiersmen Mage"));
+                newUnit.AddSystemToSocket("Magic", masl.getItem("Frontiersman Mage"));
                 newUnit.AddSystemToSocket("Stats", ssl.getItem("Frontiersman Mage"));
                 newUnit.AddSystemToSocket("Movement", mosl.getItem("Infantry 5"));
 
@@ -263,7 +263,7 @@ namespace Armies.Frontier{
         protected override void loadMagicSystems(){
             base.loadMagicSystems(); //The base loadMagicSystem has a magic system that represents no spellcasting ability
 
-            items.Add(new MagicSystem("Frontiersmen Mage",
+            items.Add(new MagicSystem("Frontiersman Mage",
                 spellBooks.Find(e => e.getName() == "Scrapper_L1"),
                 new SpellSlot(int.MaxValue, 0),
                 new SpellSlot(2, 2)
@@ -320,7 +320,7 @@ namespace Armies.Frontier{
             StatsSystem ss;
 
             #region Frontiersmen
-            ss = new StatsSystem("Frontiersmen", 1, 
+            ss = new StatsSystem("Frontiersman", 1, 
                 createStat(AvailableStatistics.ATTACKS, 1),
                 createStat(AvailableStatistics.DETERMINATION, 0),
                 createStat(AvailableStatistics.DEXTERITY, 2),
